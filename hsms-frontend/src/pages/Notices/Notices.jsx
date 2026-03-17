@@ -22,7 +22,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import DownloadIcon from "@mui/icons-material/Download";
 
-import { fetchNotices, createNotice, deleteNotice } from "../../api/noticeApi";
+import { fetchNotices, createNotice, deleteNotice } from "../../api/noticeAPI";
 
 const Notices = () => {
   const user = JSON.parse(localStorage.getItem("user"));
