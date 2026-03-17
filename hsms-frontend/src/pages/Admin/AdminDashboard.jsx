@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { fetchAdminDashboard } from "../../api/dashboardAPI";
-import { fetchNotices } from "../../api/noticeApi";
+import { fetchNotices } from "../../api/noticeAPI";
 
 import { Box, Typography, Grid, Paper } from "@mui/material";
 
