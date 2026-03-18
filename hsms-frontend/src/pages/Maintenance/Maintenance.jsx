@@ -23,7 +23,6 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import MaintenanceDialog from "./MaintenanceDialog";
 import axios from "axios"; // ✅ ADD THIS
 
-
 import {
   fetchBillsAPI,
   addBillAPI,
@@ -91,29 +90,29 @@ const Maintenance = () => {
             Add Bill
           </Button>
           {/* ✅ NEW BUTTON */}
-  <Button
-    variant="contained"
-    color="success"
-    onClick={async () => {
-      try {
-        await axios.post(
-          "http://localhost:5000/api/maintenance/generate",
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        alert("Maintenance Generated");
-        loadBills();
-      } catch (err) {
-        alert("Error generating maintenance");
-      }
-    }}
-  >
-    Generate For All
-  </Button>
+          <Button
+            variant="contained"
+            color="success"
+            onClick={async () => {
+              try {
+                await axios.post(
+                  "https://hsms-project.onrender.com/api/maintenance/generate",
+                  {},
+                  {
+                    headers: {
+                      Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                  },
+                );
+                alert("Maintenance Generated");
+                loadBills();
+              } catch (err) {
+                alert("Error generating maintenance");
+              }
+            }}
+          >
+            Generate For All
+          </Button>
         </Stack>
 
         <Table>
