@@ -6,12 +6,19 @@ import {
   Typography,
   Paper,
   MenuItem,
+  IconButton,
+  InputAdornment,
 } from "@mui/material";
-import { useNavigate, Link } from "react-router-dom"; // ✅ Link added
+import { useNavigate, Link } from "react-router-dom";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import axios from "axios";
 
 const Register = () => {
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showCPassword, setShowCPassword] = useState(false);
+
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -41,8 +48,9 @@ const Register = () => {
         flatNo: form.role === "member" ? form.flatNo : undefined,
         phone: form.role === "member" ? form.phone : undefined,
       });
+
       alert("Registration successful. Please login.");
-      navigate("/login");
+      navigate("/login"); // redirect to login as before
     } catch (error) {
       alert(error.response?.data?.message || "Registration failed");
     }
@@ -116,24 +124,44 @@ const Register = () => {
           </>
         )}
 
+        {/* Password with toggle */}
         <TextField
           fullWidth
           label="Password"
           name="password"
-          type="password"
+          type={showPassword ? "text" : "password"}
           value={form.password}
           onChange={handleChange}
           sx={{ mb: 2 }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
 
+        {/* Confirm Password with toggle */}
         <TextField
           fullWidth
           label="Confirm Password"
           name="cpassword"
-          type="password"
+          type={showCPassword ? "text" : "password"}
           value={form.cpassword}
           onChange={handleChange}
           sx={{ mb: 3 }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={() => setShowCPassword(!showCPassword)}>
+                  {showCPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
 
         <Button fullWidth variant="contained" onClick={handleRegister}>
