@@ -1,5 +1,4 @@
 import axios from "axios";
-
 import React, { useState } from "react";
 import {
   Box,
@@ -10,41 +9,27 @@ import {
   IconButton,
   InputAdornment,
 } from "@mui/material";
-
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-
-import { useNavigate } from "react-router-dom"; // 🟢 STEP 1
+import { useNavigate, Link } from "react-router-dom"; // ✅ Link added
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-  });
-
-  const navigate = useNavigate(); // 🟢 STEP 2
+  const [form, setForm] = useState({ email: "", password: "" });
+  const navigate = useNavigate();
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleLogin = async () => {
-    if (!form.email || !form.password) {
-      alert("Please fill all fields");
-      return;
-    }
+    if (!form.email || !form.password) return alert("Please fill all fields");
 
     try {
       const res = await axios.post(
         "https://hsms-project.onrender.com/api/auth/login",
-        {
-          email: form.email,
-          password: form.password,
-        },
+        form,
       );
 
-      // ✅ Save backend data
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
       localStorage.setItem("isLoggedIn", "true");
@@ -67,14 +52,7 @@ const Login = () => {
         padding: 2,
       }}
     >
-      <Paper
-        elevation={5}
-        sx={{
-          width: 400,
-          p: 4,
-          borderRadius: 3,
-        }}
-      >
+      <Paper elevation={5} sx={{ width: 400, p: 4, borderRadius: 3 }}>
         <Typography variant="h5" fontWeight="bold" textAlign="center" mb={3}>
           Login
         </Typography>
@@ -118,9 +96,9 @@ const Login = () => {
 
         <Typography mt={2} textAlign="center">
           Don't have an account?{" "}
-          <a href="/register" style={{ textDecoration: "none" }}>
+          <Link to="/register" style={{ textDecoration: "none" }}>
             Register
-          </a>
+          </Link>
         </Typography>
       </Paper>
     </Box>

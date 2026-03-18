@@ -7,12 +7,11 @@ import {
   Paper,
   MenuItem,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom"; // ✅ Link added
 import axios from "axios";
 
 const Register = () => {
   const navigate = useNavigate();
-
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -20,38 +19,28 @@ const Register = () => {
     cpassword: "",
     role: "member",
     flatNo: "",
-    phone: "", // ✅ ADDED
+    phone: "",
   });
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleRegister = async () => {
-    if (!form.name || !form.email || !form.password || !form.cpassword) {
-      alert("Please fill all fields");
-      return;
-    }
+    if (!form.name || !form.email || !form.password || !form.cpassword)
+      return alert("Please fill all fields");
 
-    if (form.password !== form.cpassword) {
-      alert("Passwords do not match");
-      return;
-    }
+    if (form.password !== form.cpassword)
+      return alert("Passwords do not match");
 
-    if (form.role === "member" && (!form.flatNo || !form.phone)) {
-      alert("Flat Number and Phone are required");
-      return;
-    }
+    if (form.role === "member" && (!form.flatNo || !form.phone))
+      return alert("Flat Number and Phone are required");
 
     try {
       await axios.post("https://hsms-project.onrender.com/api/auth/register", {
-        name: form.name,
-        email: form.email,
-        password: form.password,
-        role: form.role,
+        ...form,
         flatNo: form.role === "member" ? form.flatNo : undefined,
-        phone: form.role === "member" ? form.phone : undefined, // ✅ ADDED
+        phone: form.role === "member" ? form.phone : undefined,
       });
-
       alert("Registration successful. Please login.");
       navigate("/login");
     } catch (error) {
@@ -116,7 +105,6 @@ const Register = () => {
               sx={{ mb: 2 }}
             />
 
-            {/* ✅ NEW PHONE FIELD */}
             <TextField
               fullWidth
               label="Phone Number"
@@ -151,6 +139,13 @@ const Register = () => {
         <Button fullWidth variant="contained" onClick={handleRegister}>
           Register
         </Button>
+
+        <Typography mt={2} textAlign="center">
+          Already have an account?{" "}
+          <Link to="/login" style={{ textDecoration: "none" }}>
+            Login
+          </Link>
+        </Typography>
       </Paper>
     </Box>
   );
